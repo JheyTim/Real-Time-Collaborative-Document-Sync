@@ -1,11 +1,11 @@
 import dotenv from 'dotenv';
+dotenv.config();
 import express from 'express';
 import http from 'http';
 import { Server as SocketServer } from 'socket.io';
 import sequelize from './models'; // Sequelize initialization
 import authRoutes from './routes/authRoutes';
-
-dotenv.config();
+import documentRoutes from './routes/documentRoutes';
 
 const app = express();
 const server = http.createServer(app);
@@ -15,6 +15,7 @@ app.use(express.json());
 
 // Register auth routes
 app.use('/auth', authRoutes);
+app.use('/api', documentRoutes);
 
 // WebSocket connection handler
 io.on('connection', (socket) => {
