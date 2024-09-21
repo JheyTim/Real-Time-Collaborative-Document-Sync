@@ -1,5 +1,4 @@
-import dotenv from 'dotenv';
-dotenv.config();
+import 'dotenv/config';
 import express from 'express';
 import http from 'http';
 import { Server as SocketServer } from 'socket.io';
@@ -21,14 +20,29 @@ app.use('/api', documentRoutes);
 io.on('connection', (socket) => {
   console.log('New client connected:', socket.id);
 
-  socket.on('disconnect', () => {
-    console.log('Client disconnected:', socket.id);
+  // Event: Join document room
+  socket.on('join-document', (documentId) => {
+    console.log(`Client ${socket.id} joined document ${documentId}`);
+    socket.join(documentId); // Join the room for this specific document
+
+    socket.to(documentId).emit('user-joined', { userId: socket.id });
   });
 
-  // Custom event handling (will expand this later)
+  // Event: Edit document (changes are broadcast to others in the room)
   socket.on('edit-document', (data) => {
-    // Broadcast the document change to other users in the same room
-    socket.broadcast.emit('update-document', data);
+    const { documentId, content } = data;
+
+    // Broadcast the change to others in the same room
+    socket.to(documentId).emit('document-updated', { content });
+    console.log(`Document ${documentId} updated by client ${socket.id}`);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('Client disconnected:', socket.id);
+
+    // Optionally handle user leaving a document room
+    // Broadcast that the user has left
+    socket.broadcast.emit('user-left', { userId: socket.id });
   });
 });
 
