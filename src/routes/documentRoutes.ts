@@ -6,6 +6,8 @@ import {
   getDocumentById,
   updateDocument,
   deleteDocument,
+  getDocumentVersions,
+  restoreDocumentVersion,
 } from '../controllers/documentController';
 
 const router = Router();
@@ -16,5 +18,13 @@ router.get('/documents', authenticateJWT, getDocuments);
 router.get('/documents/:id', authenticateJWT, getDocumentById);
 router.put('/documents/:id', authenticateJWT, updateDocument);
 router.delete('/documents/:id', authenticateJWT, deleteDocument);
+
+// Version control routes
+router.get('/documents/:id/versions', authenticateJWT, getDocumentVersions);
+router.post(
+  '/documents/:documentId/versions/:versionId/restore',
+  authenticateJWT,
+  restoreDocumentVersion
+);
 
 export default router;

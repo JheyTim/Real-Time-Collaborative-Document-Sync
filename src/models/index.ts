@@ -1,6 +1,7 @@
 import { Sequelize } from 'sequelize-typescript';
 import { User } from './User';
 import { Document } from './Document';
+import { DocumentVersion } from './DocumentVersion';
 
 const sequelize = new Sequelize({
   dialect: 'mysql',
@@ -8,7 +9,7 @@ const sequelize = new Sequelize({
   username: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  models: [User, Document], // Load models here
+  models: [User, Document, DocumentVersion], // Load models here
 });
 
 export default sequelize;
