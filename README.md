@@ -1,5 +1,7 @@
 # Real-Time Collaborative Document Sync
 
+This is a backend project for a Real-Time Collaborative Document Sync system built using TypeScript, Node.js, Express, Sequelize, and WebSockets. The project allows multiple users to collaboratively edit documents in real-time, with user authentication, document management, and version control.
+
 ## Features
 * **User Authentication**: Secure user login and registration using JWT.
 * **Document Management**: Full CRUD operations for managing documents.
